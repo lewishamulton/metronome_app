@@ -16,7 +16,8 @@
     This component lives inside our window, and this is where you should put all
     your controls and content.
 */
-class MainComponent   : public AudioAppComponent
+class MainComponent   : public AudioAppComponent,
+                        public Slider::Listener
 {
 public:
     //==============================================================================
@@ -40,14 +41,17 @@ public:
        Playing,
        Stopped
     };
+    
+    void sliderValueChanged (Slider* slider) override; 
 
 private:
     
     TextButton playButton { "Play" };
     TextButton stopButton { "Stop" };
     
+    Slider bpmChanger;
+    Label bpmLabel; 
     
-    //object of enum class
     PlayState mPlayState {PlayState::Stopped};
     
     Metronome mMetronome; 

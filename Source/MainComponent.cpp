@@ -23,6 +23,21 @@ MainComponent::MainComponent()
     
     addAndMakeVisible(stopButton);
     
+    bpmChanger.setSliderStyle(Slider::SliderStyle::LinearHorizontal);
+    bpmChanger.setColour(Slider::backgroundColourId, Colours::ivory);
+    bpmChanger.setRange(30, 300, 1);
+    bpmChanger.setTextBoxStyle(Slider::TextBoxBelow, true, 40, 20);
+    
+   /* bpmLabel.setFont(15.0f);
+    bpmLabel.setText("BPM", NotificationType::dontSendNotification);
+    bpmLabel.setJustificationType(Justification::centredLeft);
+    bpmLabel.attachToComponent(&bpmChanger, false); */
+    
+    addAndMakeVisible(bpmChanger);
+    
+    
+
+    
     
     setSize (200, 200);
 
@@ -50,6 +65,7 @@ MainComponent::~MainComponent()
 void MainComponent::play()
 {
     mPlayState = PlayState::Playing;
+    sliderValueChanged(&bpmChanger);
 }
 
 void MainComponent::stop()
@@ -62,6 +78,7 @@ void MainComponent::stop()
 void MainComponent::prepareToPlay (int samplesPerBlockExpected, double sampleRate)
 {
     mMetronome.prepareToPlay(samplesPerBlockExpected,sampleRate);
+    
 }
 
 void MainComponent::getNextAudioBlock (const AudioSourceChannelInfo& bufferToFill)
@@ -97,8 +114,20 @@ void MainComponent::resized()
     Rectangle<int> bounds = getLocalBounds();
     
     FlexBox flexBox;
+    flexBox.flexDirection = FlexBox::Direction::row;
+    flexBox.flexWrap = FlexBox::Wrap::wrap;
+    flexBox.alignContent = FlexBox::AlignContent::stretch;
+    
     flexBox.items.add(FlexItem(100,100, playButton));
     flexBox.items.add(FlexItem(100,100, stopButton));
+    flexBox.items.add(FlexItem(200,100, bpmChanger)); 
     flexBox.performLayout(bounds);
 }
  
+
+void MainComponent::sliderValueChanged(Slider *slider)
+{
+    if(slider == &bpmChanger){
+        mMetronome.setCurrentBPM(bpmChanger.getValue()); 
+    }
+}

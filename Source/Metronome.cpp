@@ -95,3 +95,8 @@ void Metronome::hiResTimerCallback()
     mInterval = 60.0 / mBpm * mSampleRate;
 }
 
+void Metronome::setCurrentBPM(int newBpm)
+{
+     mBpm = newBpm;
+}
+

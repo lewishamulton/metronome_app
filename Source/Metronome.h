@@ -24,6 +24,9 @@ public:
     //High Resolution Timer
     void hiResTimerCallback() override;
     
+    //set BPM
+    void setCurrentBPM(int newBpm);
+    
 private:
     int mTotalSamples { 0 };
     double mSampleRate { 0 };

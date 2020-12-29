@@ -12,17 +12,14 @@
 #include "Metronome.h"
 
 //==============================================================================
-/*
-    This component lives inside our window, and this is where you should put all
-    your controls and content.
-*/
+
 class MainComponent   : public AudioAppComponent,
                         public Slider::Listener
 {
 public:
     //==============================================================================
     MainComponent();
-    ~MainComponent();
+    ~MainComponsent();
 
     //==============================================================================
     void prepareToPlay (int samplesPerBlockExpected, double sampleRate) override;
@@ -32,29 +29,35 @@ public:
     //==============================================================================
     void paint (Graphics& g) override;
     void resized() override;
-    
+
     void play();
-    void stop(); 
-    
+    void stop();
+
+    //enumerated class PlayState defining two states of a metronome
     enum class PlayState
     {
        Playing,
        Stopped
     };
-    
-    void sliderValueChanged (Slider* slider) override; 
+
+
+    void sliderValueChanged (Slider* slider) override;
 
 private:
-    
+
     TextButton playButton { "Play" };
     TextButton stopButton { "Stop" };
-    
+
     Slider bpmChanger;
-    Label bpmLabel; 
+    Label bpmLabel;
+
+    // instations of possible metronome states and metronome object itself
     
+    /* metronome is initally instantiated with playingState Stopped
+       so it doesnt start once app is opened */
     PlayState mPlayState {PlayState::Stopped};
-    
-    Metronome mMetronome; 
+
+    Metronome mMetronome;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };
